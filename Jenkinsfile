@@ -6,7 +6,10 @@ pipeline{
     stages{
         stage("Maven Build"){
             when {
-                branch "develop"
+               expression{
+                   env.BRANCH_NAME.Equals("develop") ||
+                   env.BRANCH_NAME.Startswith("feature*")
+               }
             }
             steps{
                sh "mvn package"
@@ -17,7 +20,7 @@ pipeline{
                 branch "develop"
             }
             steps{
-               echo "sonar analysis"
+              echo "sonar qube analysis"
             }
         }
         stage("nexus artifact"){
