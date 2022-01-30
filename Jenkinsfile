@@ -6,7 +6,10 @@ pipeline{
     stages{
         stage("Maven Build"){
             when {
-                branch "develop"
+               expression{
+                   env.BRANCH_NAME.equals("develop") ||
+                   env.BRANCH_NAME.startsWith("feature")
+               }
             }
             steps{
                sh "mvn package"
@@ -14,15 +17,23 @@ pipeline{
         }
         stage("sonar analysis"){
             when {
-                branch "develop"
+                expression{
+                   env.BRANCH_NAME.equals("develop") ||
+                   env.BRANCH_NAME.startsWith("feature")
+               }
             }
             steps{
-               echo "sonar analysis"
+              withSonarQubeEnv('sonar7') {
+                 sh "mvn sonar:sonar"       
+        }
             }
         }
         stage("nexus artifact"){
             when {
-                branch "develop"
+                expression{
+                   env.BRANCH_NAME.equals("develop") ||
+                   env.BRANCH_NAME.startsWith("feature")
+               }
             }
             steps{
                echo "nexus artifact upload"
