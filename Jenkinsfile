@@ -23,9 +23,9 @@ pipeline{
                }
             }
             steps{
-              withSonarQubeEnv(credentialsId: 'sonar7') {
-                 sh "mvn sonar:sonar"
-            }
+              withSonarQubeEnv('sonar7') {
+                 sh "mvn sonar:sonar"       
+        }
         }
         stage("nexus artifact"){
             when {
