@@ -23,7 +23,8 @@ pipeline{
                }
             }
             steps{
-              echo "sonar qube analysis"
+              withSonarQubeEnv(credentialsId: 'sonar7') {
+                 sh "mvn sonar:sonar"
             }
         }
         stage("nexus artifact"){
