@@ -26,6 +26,7 @@ pipeline{
               withSonarQubeEnv('sonar7') {
                  sh "mvn sonar:sonar"       
         }
+            }
         }
         stage("nexus artifact"){
             when {
